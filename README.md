@@ -17,7 +17,17 @@ Choose a Toms bin data  which is appropriate (or generate your own!) for your po
 The output bin is constructed to have `Toms.bin` as filename. It's hard coded in the bin file! So after, make sure you rename input file the same as your output
 
 example of running the script:
-epython3 modify_lastname.py --input data/Toms400.bin --names names.txt --output Toms.bin`
+```
+python3 modify_lastname.py --input data/Toms400.bin --names names.txt --output Toms.bin`
+```
+
+The .bin can be found here:
+`My Documents/My Games/XCOM2 War of the Chosen/XComGame/CharacterPool/Importable/`
+```
+Importable/
+├── Developers.bin
+└── Toms.bin
+```
 
 ## Pool creation if creating custom clone
 
