@@ -54,7 +54,7 @@ for name in names:
 if invalid_names:
     print(f"Found {len(invalid_names)} invalid name(s):")
     print('\n'.join(invalid_names))
-    raise ValueError( f"All names must be between 1 and\ {MAX_SIZE} characters long")
+    raise ValueError( f"All names must be between 1 and {MAX_SIZE} characters long")
 
 # %%
 soldier_pool_bin = Path(PATH_IN)
