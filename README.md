@@ -2,34 +2,62 @@
 
 This script will edit the bytestrings of the lastnames of your soldiers in a given pool.
 
-It is best to create a default template of a character. Then create a pool of clones (25, 50, 100, ..., 500) depending on how many you want to rename.
+(Option 1) Use 1 origin character with a set appearance and clone it a bunch of times. Then rename all the clones with custom names. Make your own template or use premade TomsX.bin
+
+(Option 2) Using the Dev.bin pool. They have personalities/custom appearance made by the devs. The program can rename their last names so there's some custom appearance data compared to using Tom clones
 
 ![Ingame result](img/screenshot_pool.png)
 
+## Requirements
+
+Python3.9+, no third party libs
+
+bot.py (not needed) requires pyautogui
+notebook.ipynb (not needed) requires jupyter
+
 ## Usage
 
-Create your own template, pool or create custom clone (see below)
+Decide on using Tom clones with similar appearance or Dev with more appearance variety. Alternatively you can create your own template (difficult, see details below)
 
-Input names in names.txt (one name per line). The game is limited to 15 characters max, the program will show you which names are invalid
+Input names in names.txt (one name per line). The game limits names to 15 characters. The program will show you which names are invalid and require renaming
 
-Choose a Toms bin data  which is appropriate (or generate your own!) for your pool numbers and run it. e.g. copy ./data/Toms250.bin to ./Toms.bin
+Select the appropriate bin data for your pool numbers
 
-The output bin is constructed to have `Toms.bin` as filename. It's hard coded in the bin file! So after, make sure you rename input file the same as your output
+⚠️The output .bin needs to loaded by the game as `Toms.bin` or `Dev.bin` as that is what it is originally exported as.
 
-example of running the script:
+Example of running the script for Toms. Result will be 400 clones, most or all with a custom name from names.txt
 ```
 python3 modify_lastname.py --input data/Toms400.bin --names names.txt --output Toms.bin`
 ```
 
-The .bin can be found here:
+example of running the script for Dev. Result will be 400 clones, most or all with a custom name from names.txt
+```
+python3 modify_lastname.py --input data/143.bin --names names.txt --output Dev.bin`
+```
+
+The game loads/exports pools (.bin) here:
 `My Documents/My Games/XCOM2 War of the Chosen/XComGame/CharacterPool/Importable/`
 ```
 Importable/
 ├── Developers.bin
+├── Dev.bin
 └── Toms.bin
 ```
 
-## Pool creation if creating custom clone
+## names.txt
+
+names should be. maximum of 15 characters per name. Run program and it will tell you which names are too long. 
+Empty lines and whitespace are ignored
+
+names.txt
+
+```
+name1
+name2
+name3
+```
+
+## Pool creation if creating custom clone (optional)
 
 Create a "Tom" which is your default character. I recommend to name it "tomaxlengthname" as its tied to the bytestring that gets replaced in the script
 
@@ -58,9 +86,10 @@ Import Tom50. Now you have 150. Export to Tom150
 repeat until you have enough Toms
 
 
+
 ![Ingame result](img/screenshot_clones.png)
 
-## What bytestring do? lastname overwriting
+## How? What bytestring do, lastname overwriting
 
 ImHex screenshot
 1, 2 numbers correlate with name length
@@ -93,8 +122,15 @@ girty (5)
 06 00 00 00 00 00 00 00 02 00 00 00 2E
 ```
 
-## Resources:
+## Pseudo-random custom named soldiers
 
+Renaming uses the same trick as above. I must first nename the last name to "tomaxlengthname" and then loop through and replace some bytes.
+
+There are 143 custom characters added by the Devs. I looped through every single one and renamed their first, last and nickname. A bot (included in the dir) did most of the work. It's not perfect but it does the job.
+
+pythongui is a requirement if you want to run it
+
+## Resources:
 
 UE modding resources
 https://github.com/Buckminsterfullerene02/UE-Modding-Tools
