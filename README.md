@@ -32,17 +32,29 @@ Importable/
 ## Pool creation if creating custom clone
 
 Create a "Tom" which is your default character. I recommend to name it "tomaxlengthname" as its tied to the bytestring that gets replaced in the script
+
 Export into a pool. Name it Toms
+
 Export Tom again into Toms
+
 Export Tom again in Toms
+
 Repeat until you have 5 Toms in the pool and 1 in barracks
+
 Now, import the 5 toms. Repeat until you have 26.
+
 Delete 1 Tom so you have 25.
+
 Create a new pool Tom25. Export all to Tom25
+
 Import Tom25 so there's 50 total.
+
 Create new pool Tom50. Export all (50) to Tom50  
+
 Import Tom50. Now you have 100. Export to Tom100
+
 Import Tom50. Now you have 150. Export to Tom150
+
 repeat until you have enough Toms
 
 
