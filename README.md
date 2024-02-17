@@ -21,6 +21,8 @@ Decide on using Tom clones with similar appearance or Dev with more appearance v
 
 Input names in names.txt (one name per line). The game limits names to 15 characters. The program will show you which names are invalid and require renaming
 
+Names that have special characters break. ó, ò, ê, ñ, ù, ç, ¿, ß
+
 Select the appropriate bin data for your pool numbers
 
 ⚠️The output .bin needs to loaded by the game as `Toms.bin` or `Dev.bin` as that is what it is originally exported as.

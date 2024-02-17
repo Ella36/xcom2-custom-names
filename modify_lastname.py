@@ -1,5 +1,6 @@
 # %%
 from pathlib import Path
+import re
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -32,6 +33,7 @@ VALUE1 = b"\x14"
 VALUE2 = b"\x10"
 
 # %%
+# %%
 # read in names from a text file
 names_path = Path(PATH_NAMES)
 with open(names_path, "r") as f:
@@ -45,17 +47,29 @@ amount_of_names: int = len(names)
 print(f"Read {amount_of_names} names from names.txt")
 
 # Validate names are not too short or long
-invalid_names: list[str] = []
+invalid_names = []
+special_character_names = []
+
+regex = r"[\u00C0-\u017F]"
+
+# Warning for invalid names
 for name in names:
     if not (0 < len(name) and len(name) <= MAX_SIZE):
         invalid_names.append(name)
+    if re.search(regex, name):
+        special_character_names.append(name)
+
+# Warning for characters with accent
+if special_character_names:
+    print(f"Warning: {len(special_character_names)} potentially breaking name(s):")
+    print('\n'.join(special_character_names))
+    print(f"Names that have special characters (letters with accents) may break")
 
 # Print invalid names
 if invalid_names:
-    print(f"Found {len(invalid_names)} invalid name(s):")
+    print(f"Warning: {len(invalid_names)} invalid name(s):")
     print('\n'.join(invalid_names))
     raise ValueError( f"All names must be between 1 and {MAX_SIZE} characters long")
-
 # %%
 soldier_pool_bin = Path(PATH_IN)
 with open(soldier_pool_bin, "rb") as f:
@@ -69,7 +83,7 @@ amount_of_soldiers_in_pool: int = len(soldier_pool.split(BYTES_TO_MODIFY)) - 1
 
 if amount_of_names > amount_of_soldiers_to_modify_in_pool:
     print(
-        f"Not enough soldiers in the pool ({amount_of_soldiers_in_pool}) to modify {amount_of_names} names! Pick a bigger size!"
+        f"Not enough soldiers in the pool ({amount_of_soldiers_in_pool}) to modify ({amount_of_names} names! Pick a bigger size!"
     )
 else:
     print(
