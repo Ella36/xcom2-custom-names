@@ -69,7 +69,7 @@ amount_of_soldiers_in_pool: int = len(soldier_pool.split(BYTES_TO_MODIFY)) - 1
 
 if amount_of_names > amount_of_soldiers_to_modify_in_pool:
     print(
-        f"Not enough soldiers in the pool ({amount_of_soldiers_in_pool}) to modify ({amount_of_names} names! Pick a bigger size!"
+        f"Not enough soldiers in the pool ({amount_of_soldiers_in_pool}) to modify {amount_of_names} names! Pick a bigger size!"
     )
 else:
     print(
