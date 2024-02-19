@@ -2,15 +2,16 @@ name: Package exe with PyInstaller - Windows
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - master
+    tags:
+      - v*
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - run: |
         mkdir -p src
         mv pyinstaller-win10/modify_lastname.spec src/
@@ -22,8 +23,8 @@ jobs:
     - run: |
         mkdir release
         mv names.txt data/* src/dist/windows/* release/
-        mv pyinstaller-win10/cli-wrapper.cs release/
-    - uses: actions/upload-artifact@v2
+        mv pyinstaller-win10/cli-wrapper.ps release/
+    - uses: actions/upload-artifact@v3
       with:
         name: modify-lastname
-        path: release
+        path: release/*
