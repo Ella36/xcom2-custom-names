@@ -29,12 +29,12 @@ Select the appropriate bin data for your pool numbers
 
 Example of running the script for Toms. Result will be 400 clones, most or all with a custom name from names.txt
 ```
-python3 modify_lastname.py --input data/Toms400.bin --names names.txt --output Toms.bin`
+python3 modify_lastname.py --input data/Toms400.bin --names names.txt --output Toms.bin
 ```
 
-example of running the script for Dev. Result will be 400 clones, most or all with a custom name from names.txt
+example of running the script for Dev. Result will be 400 clones with <=400 amount of custom names from names.txt
 ```
-python3 modify_lastname.py --input data/143.bin --names names.txt --output Dev.bin`
+python3 modify_lastname.py --input data/Dev143.bin --names names.txt --output Dev.bin
 ```
 
 The game loads/exports pools (.bin) here:
