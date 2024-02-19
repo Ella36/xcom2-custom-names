@@ -6,7 +6,7 @@ on:
     types:
       - completed
     branches-ignore:
-      - master
+      - main
 
 jobs:
   build:
@@ -20,7 +20,16 @@ jobs:
         with:
           name: modify-lastname
           path: dist
-      - name: Create release
-        uses: ncipollo/release-action@v1
+      - name: zip release
+        uses: montudor/action-zip@v1
         with:
-          artifacts: "dist/*"
+          args: zip -qq -r release.zip . -i release/*
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: |
+            Release:
+            - src: contains source. use this if you can run python through cmdline
+            - release.zip: for windows10 convenience, it contains a single .exe and .ps wrapper to select .bin
+          files: |
+            release.zip
