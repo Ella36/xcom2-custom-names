@@ -9,6 +9,7 @@ jobs:
   build:
     uses: ./.github/workflows/pyinstaller.yml
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
