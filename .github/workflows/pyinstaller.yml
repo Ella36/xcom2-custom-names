@@ -23,7 +23,7 @@ jobs:
     - run: |
         mkdir release
         mv names.txt data/* src/dist/windows/* release/
-        mv pyinstaller-win10/cli-wrapper.ps release/
+        mv pyinstaller-win10/cli-wrapper.ps1 release/
     - uses: actions/upload-artifact@v3
       with:
         name: modify-lastname

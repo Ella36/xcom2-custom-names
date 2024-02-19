@@ -30,6 +30,6 @@ jobs:
           body: |
             Release:
             - src: contains source. use this if you can run python through cmdline
-            - release.zip: for windows10 convenience, it contains a single .exe and .ps wrapper to select .bin
+            - release.zip: for windows10 convenience, it contains a single .exe and .ps1 wrapper to select .bin
           files: |
             release.zip
