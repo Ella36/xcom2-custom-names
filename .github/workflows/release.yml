@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+    branches-ignore:
+      - main
+
+jobs:
+  build:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v3
+        with:
+          name: modify-lastname
+          path: dist
+      - name: zip release
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r release.zip . -i release/*
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: |
+            Release:
+            - src: contains source. use this if you can run python through cmdline
+            - release.zip: for windows10 convenience, it contains a single .exe and .ps1 wrapper to select .bin
+          files: |
+            release.zip
