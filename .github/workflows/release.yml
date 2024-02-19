@@ -1,16 +1,14 @@
 name: Release
 
 on:
-  workflow_run:
-    workflows: ["Build"]
-    types:
-      - completed
-    branches:
-      - main
+  push:
+    tags:
+      - v*
 
 jobs:
+  build:
+    uses: ./.github/workflows/pyinstaller.yml
   deploy:
-    if: startsWith(github.event.workflow_run.head_branch.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
