@@ -12,7 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: |
-          mkdir src
           mv modify_lastname.py src/
     - name: PyInstaller Windows
       uses: JackMcKew/pyinstaller-action-windows@python3-10-pyinstaller-5-3
