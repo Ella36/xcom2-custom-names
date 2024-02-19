@@ -1,17 +1,16 @@
-# %%
 from pathlib import Path
 import re
 import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    "--input", default="./Toms.bin", type=str, help="Path to input .bin file"
+    "--input", default="./data/Toms50.bin", type=str, help="Path to input .bin file"
 )
 parser.add_argument(
     "--output",
-    default="./Toms-remove-this-part-so-its-just-toms.bin",
+    default="./Toms.bin",
     type=str,
-    help="Path to output .bin file",
+    help="Path to output .bin file. Must be Toms.bin or Dev.bin to work properly",
 )
 parser.add_argument(
     "--names",
@@ -32,8 +31,6 @@ BYTES_TO_MODIFY: bytes = ( # See readme to know this magic string means
 VALUE1 = b"\x14"
 VALUE2 = b"\x10"
 
-# %%
-# %%
 # read in names from a text file
 names_path = Path(PATH_NAMES)
 with open(names_path, "r") as f:
@@ -70,12 +67,11 @@ if invalid_names:
     print(f"Warning: {len(invalid_names)} invalid name(s):")
     print('\n'.join(invalid_names))
     raise ValueError( f"All names must be between 1 and {MAX_SIZE} characters long")
-# %%
+
 soldier_pool_bin = Path(PATH_IN)
 with open(soldier_pool_bin, "rb") as f:
     soldier_pool: bytes = f.read()
 
-# %%
 # Cut out the string to modify
 bytes_split: list = soldier_pool.split(BYTES_TO_MODIFY, amount_of_names)
 amount_of_soldiers_to_modify_in_pool: int = len(bytes_split) - 1
@@ -90,7 +86,6 @@ else:
         f"Modifying {amount_of_soldiers_to_modify_in_pool}/{amount_of_soldiers_in_pool} soldiers"
     )
 
-# %%
 # Substract character difference from value
 def subtract_from_value(value: bytes, amount: int) -> bytes:
     value: int = int.from_bytes(value, byteorder="big")
@@ -119,7 +114,6 @@ for name in names:
 
     new_byte_pieces.append(byte_string)
 
-# %%
 # Construct our pool of soldiers
 merged_string: bytes = b""
 
@@ -129,7 +123,7 @@ for i in range(len(bytes_split)):
     else:
         merged_string += bytes_split[i] + new_byte_pieces[i]
 
-# %%
+# Write to output .bin
 soldier_pool_bin_output = Path(PATH_OUT)
 with open(soldier_pool_bin_output, "wb") as f:
     soldier_pool: bytes = f.write(merged_string)
