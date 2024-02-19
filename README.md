@@ -59,6 +59,14 @@ name2
 name3
 ```
 
+Names with accents such as below don't display as expected
+```
+Gastón Rodolfo 
+Darío Priego Al
+Rómulo Jerez Re
+...
+```
+
 ## Pool creation if creating custom clone (optional)
 
 Create a "Tom" which is your default character. I recommend to name it "tomaxlengthname" as its tied to the bytestring that gets replaced in the script
