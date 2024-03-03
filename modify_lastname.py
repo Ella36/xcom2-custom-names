@@ -36,36 +36,35 @@ names_path = Path(PATH_NAMES)
 with open(names_path, "r") as f:
     names: list[str] = []
     for line in f:
-        name = line.strip()
-        if name:
+        name = line.strip() # remove whitespace
+        if name: # ignore empty line
             names.append(name)
 
 amount_of_names: int = len(names)
 print(f"Read {amount_of_names} names from names.txt")
 
-# Validate names are not too short or long
-invalid_names = []
-special_character_names = []
+# Validate names
+names_with_invalid_length = []
+names_with_special_characters = []
 
-regex = r"[\u00C0-\u017F]"
+regex_special_characters = r"[\u00C0-\u017F]"
 
-# Warning for invalid names
 for name in names:
     if not (0 < len(name) and len(name) <= MAX_SIZE):
-        invalid_names.append(name)
-    if re.search(regex, name):
-        special_character_names.append(name)
+        names_with_invalid_length.append(name)
+    if re.search(regex_special_characters, name):
+        names_with_special_characters.append(name)
 
-# Warning for characters with accent
-if special_character_names:
-    print(f"Warning: {len(special_character_names)} potentially breaking name(s):")
-    print('\n'.join(special_character_names))
-    print(f"Names that have special characters (letters with accents) may break")
+# Warning names with special characters
+if names_with_special_characters:
+    print(f"Warning: {len(names_with_special_characters)} potentially breaking name(s):")
+    print('\n'.join(names_with_special_characters))
+    print(f"Names that have special characters (letters with accents) may show up incorrectly in the game.")
 
-# Print invalid names
-if invalid_names:
-    print(f"Warning: {len(invalid_names)} invalid name(s):")
-    print('\n'.join(invalid_names))
+# Error names with invalid_length
+if names_with_invalid_length:
+    print(f"Warning: {len(names_with_invalid_length)} invalid name(s):")
+    print('\n'.join(names_with_invalid_length))
     raise ValueError( f"All names must be between 1 and {MAX_SIZE} characters long")
 
 soldier_pool_bin = Path(PATH_IN)
@@ -77,6 +76,7 @@ bytes_split: list = soldier_pool.split(BYTES_TO_MODIFY, amount_of_names)
 amount_of_soldiers_to_modify_in_pool: int = len(bytes_split) - 1
 amount_of_soldiers_in_pool: int = len(soldier_pool.split(BYTES_TO_MODIFY)) - 1
 
+# Check pool size and names size
 if amount_of_names > amount_of_soldiers_to_modify_in_pool:
     print(
         f"Not enough soldiers in the pool ({amount_of_soldiers_in_pool}) to modify ({amount_of_names} names! Pick a bigger size!"
@@ -114,7 +114,7 @@ for name in names:
 
     new_byte_pieces.append(byte_string)
 
-# Construct our pool of soldiers
+# Construct new pool of soldiers
 merged_string: bytes = b""
 
 for i in range(len(bytes_split)):
