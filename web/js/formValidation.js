@@ -39,7 +39,7 @@ async function onFormSubmit(event) {
     let isTomSelected = document.getElementById("tom").checked
     //
     let outputFileName = "Toms.bin"
-    let inputFilename = "/data/"
+    let inputFilename = "./data/"
     if (isTomSelected) {
         outputFileName = "Toms.bin"
         if (amountOfLines <= 25) { inputFilename += "Toms25.bin"; }
@@ -74,7 +74,7 @@ async function onFormSubmit(event) {
     console.groupEnd('Javascript: Setting input parameters');
 
     // Load script
-    const pythonScriptPath = "/web/python/script.py";
+    const pythonScriptPath = "./web/python/script.py";
     const script = await (await fetch(pythonScriptPath)).text();
 
     // Load input bin
