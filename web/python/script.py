@@ -77,7 +77,6 @@ def subtract_from_value(value: bytes, amount: int) -> bytes:
     return value
 
 # Construct new bytestring
-print('bytestring')
 new_byte_pieces: list[bytes] = []
 for name in names:
     amount_of_characters: int = len(name)
