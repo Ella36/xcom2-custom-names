@@ -1,6 +1,8 @@
 import re
 import js
 
+from pathlib import Path
+
 # Load names from textArea
 namesTextArea = js.document.getElementById("namesTextArea")
 # Load input bin
@@ -14,6 +16,8 @@ BYTES_TO_MODIFY: bytes = ( # See readme to know this magic string means
 VALUE1 = b"\x14"
 VALUE2 = b"\x10"
 
+PATH_OUT = '/output.bin' # JS output bin
+
 # read in names from JS textArea
 names: list[str] = []
 for line in namesTextArea.value.split('\n'):
@@ -21,39 +25,45 @@ for line in namesTextArea.value.split('\n'):
     if name:
         names.append(name)
 
+################################
+# Text below is copied from modify_lastname.py
+################################
+
 amount_of_names: int = len(names)
 print(f"Read {amount_of_names} names from names.txt")
 
-# Validate names are not too short or long
+# Validate names
 names_with_invalid_length = []
 names_with_special_characters = []
 
-# Special characters
-regex = r"[\u00C0-\u017F]"
+regex_special_characters = r"[\u00C0-\u017F]"
 
-# Name validation
 for name in names:
-    # Check if name is valid length
     if not (0 < len(name) and len(name) <= MAX_SIZE):
         names_with_invalid_length.append(name)
-    # Check for special characters
-    if re.search(regex, name):
+    if re.search(regex_special_characters, name):
         names_with_special_characters.append(name)
 
-# Print warnings for names with special characters
+# Warning for characters with accent
 if names_with_special_characters:
     print(f"Warning: {len(names_with_special_characters)} potentially breaking name(s):")
     print('\n'.join(names_with_special_characters))
-    print(f"Names that have special characters (letters with accents) may break")
+    print(f"Names that have special characters may show incorrectly in game:\n\t{regex_special_characters}")
 
-# Print error for names with invalid length
+# Error names with invalid length
 if names_with_invalid_length:
     print(f"Warning: {len(names_with_invalid_length)} invalid name(s):")
     print('\n'.join(names_with_invalid_length))
     raise ValueError( f"All names must be between 1 and {MAX_SIZE} characters long")
 
+# %%
+soldier_pool_bin = Path(PATH_IN)
+with open(soldier_pool_bin, "rb") as f:
+    soldier_pool: bytes = f.read()
+
+# %%
 # Cut out the string to modify
-bytes_split: list = soldier_pool.split(BYTES_TO_MODIFY, amount_of_names)
+bytes_split: list = soldier_pool.split(BYTES_TO_MODIFY, amount_of_names+1)[:amount_of_names+1]
 amount_of_soldiers_to_modify_in_pool: int = len(bytes_split) - 1
 amount_of_soldiers_in_pool: int = len(soldier_pool.split(BYTES_TO_MODIFY)) - 1
 
@@ -72,13 +82,14 @@ else:
         f"Modifying {amount_of_soldiers_to_modify_in_pool}/{amount_of_soldiers_in_pool} soldiers"
     )
 
+# %%
 # Substract character difference from value
 def subtract_from_value(value: bytes, amount: int) -> bytes:
-    value: int = int.from_bytes(value, byteorder="big")
+    value: int = int.from_bytes(value, byteorder="little")
     value: int = value - amount
     value: bytes = value.to_bytes(
         length=1,
-        byteorder="big",
+        byteorder="little",
     )
     return value
 
@@ -100,6 +111,7 @@ for name in names:
 
     new_byte_pieces.append(byte_string)
 
+# %%
 # Construct our pool of soldiers
 merged_string: bytes = b""
 
@@ -109,6 +121,8 @@ for i in range(len(bytes_split)):
     else:
         merged_string += bytes_split[i] + new_byte_pieces[i]
 
+
+# %%
 # If we return less values than the .bin holds it will copypaste the last soldier
 # Patch amount of soldiers value
 # For  500: ['\xF4, '\x01']
@@ -120,7 +134,10 @@ amount_hex: bytes = amount_of_names.to_bytes(length=2, byteorder="little")
 patched_amount_of_soldiers: bytes = merged_string[:56] + amount_hex + merged_string[58:162] + amount_hex + merged_string[164:]
 merged_string = patched_amount_of_soldiers
 
-# Write to output .bin
-soldier_pool_bin_output = '/output.bin'
+# %%
+soldier_pool_bin_output = Path(PATH_OUT)
 with open(soldier_pool_bin_output, "wb") as f:
     soldier_pool: bytes = f.write(merged_string)
+print(f"Wrote modified .bin to {PATH_OUT}")
+
+
