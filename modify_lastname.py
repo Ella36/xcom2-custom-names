@@ -96,7 +96,7 @@ bytes_split[-1] = bytes_last
 
 if amount_of_names > amount_of_soldiers_to_modify_in_pool:
     print(
-        f"Not enough soldiers in the pool ({amount_of_soldiers_in_pool}) to modify ({amount_of_names} names! Pick a bigger size!"
+        f"Not enough soldiers in the pool ({amount_of_soldiers_in_pool}) to modify ({amount_of_names} names! "
     )
 else:
     print(
