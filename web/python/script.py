@@ -57,11 +57,6 @@ if names_with_invalid_length:
     raise ValueError( f"All names must be between 1 and {MAX_SIZE} characters long")
 
 # %%
-soldier_pool_bin = Path(PATH_IN)
-with open(soldier_pool_bin, "rb") as f:
-    soldier_pool: bytes = f.read()
-
-# %%
 # Cut out the string to modify
 bytes_split: list = soldier_pool.split(BYTES_TO_MODIFY, amount_of_names+1)[:amount_of_names+1]
 amount_of_soldiers_to_modify_in_pool: int = len(bytes_split) - 1
