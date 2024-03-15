@@ -39,6 +39,11 @@ VALUE1 = b"\x14"
 VALUE2 = b"\x10"
 
 # %%
+soldier_pool_bin = Path(PATH_IN)
+with open(soldier_pool_bin, "rb") as f:
+    soldier_pool: bytes = f.read()
+
+# %%
 # read in names from a text file
 names_path = Path(PATH_NAMES)
 with open(names_path, "r") as f:
@@ -74,11 +79,6 @@ if names_with_invalid_length:
     print(f"Warning: {len(names_with_invalid_length)} invalid name(s):")
     print('\n'.join(names_with_invalid_length))
     raise ValueError( f"All names must be between 1 and {MAX_SIZE} characters long")
-
-# %%
-soldier_pool_bin = Path(PATH_IN)
-with open(soldier_pool_bin, "rb") as f:
-    soldier_pool: bytes = f.read()
 
 # %%
 # Cut out the string to modify
