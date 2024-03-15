@@ -14,6 +14,10 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            .github
       - name: Download
         uses: actions/download-artifact@v3
         with:
@@ -26,9 +30,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          body: |
-            Release notes:
-            - Source code: use this if prefer running python through cmdline
-            - release.zip: for windows10 convenience, it contains a single `.exe` and `.ps1` wrapper to select .bin
+          body_path: ".github/workflow_data/release.md"
           files: |
             release.zip
