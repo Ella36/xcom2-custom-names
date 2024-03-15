@@ -2,9 +2,9 @@
 
 This script will edit the bytestrings of the lastnames of your soldiers in a given pool.
 
-(Option 1) Use 1 origin character with a set appearance and clone it a bunch of times. Then rename all the clones with custom names. Make your own template or use premade TomsX.bin
+(Option 1) Use 1 origin character with a set appearance and clone it a bunch of times. Then rename all the clones with custom names. Make your own template or use premade Toms.bin
 
-(Option 2) Using the Dev.bin pool. They have personalities/custom appearance made by the devs. The program can rename their last names so there's some custom appearance data compared to using Tom clones
+(Option 2) Using the Devs.bin pool. They have personalities/custom appearance made by the devs. The program can rename their last names so there's some custom appearance data compared to using Tom clones
 
 ![Ingame result](img/screenshot_pool.png)
 
@@ -23,18 +23,14 @@ Input names in names.txt (one name per line). The game limits names to 15 charac
 
 Names that have special characters break. ó, ò, ê, ñ, ù, ç, ¿, ß
 
-Select the appropriate bin data for your pool numbers
-
-⚠️The output .bin needs to loaded by the game as `Toms.bin` or `Dev.bin` as that is what it is originally exported as.
-
-Example of running the script for Toms. Result will be 400 clones, most or all with a custom name from names.txt
+Example of running the script for Toms
 ```
-python3 modify_lastname.py --input data/Toms400.bin --names names.txt --output Toms.bin
+python3 modify_lastname.py --input data/Toms.bin --names names.txt --output Toms.bin
 ```
 
-example of running the script for Dev. Result will be 400 clones with <=400 amount of custom names from names.txt
+example of running the script for Devs
 ```
-python3 modify_lastname.py --input data/Dev143.bin --names names.txt --output Dev.bin
+python3 modify_lastname.py --input data/Devs.bin --names names.txt --output Dev.bin
 ```
 
 The game loads/exports pools (.bin) here:
@@ -63,7 +59,7 @@ name3
 
 Names with accents such as below don't display as expected
 ```
-Gastón Rodolfo 
+Gastón Rodolfo
 Darío Priego Al
 Rómulo Jerez Re
 ...
@@ -89,13 +85,19 @@ Create a new pool Tom25. Export all to Tom25
 
 Import Tom25 so there's 50 total.
 
-Create new pool Tom50. Export all (50) to Tom50  
+Create new pool Tom50. Export all (50) to Tom50
 
 Import Tom50. Now you have 100. Export to Tom100
 
 Import Tom50. Now you have 150. Export to Tom150
 
 repeat until you have enough Toms
+
+ ⚠️Name your custom pool 4 characters long. Or it will change the byte offsets for soldier_amount.
+```
+amount_hex: bytes = amount_of_names.to_bytes(length=2, byteorder="little")
+patched_amount_of_soldiers: bytes = merged_string[:56] + amount_hex + merged_string[58:160] + amount_hex + merged_string[162:]
+```
 
 
 
