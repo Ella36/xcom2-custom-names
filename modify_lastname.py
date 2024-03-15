@@ -31,7 +31,6 @@ PATH_IN = args.input
 PATH_OUT = args.output
 PATH_NAMES = args.names
 
-
 MAX_SIZE: int = 15  # XCOM2 game limitation
 BYTES_TO_MODIFY: bytes = ( # See readme to know this magic string means
     b"\x14\x00\x00\x00\x00\x00\x00\x00\x10\x00\x00\x00\x74\x6F\x6D\x61\x78\x6C\x65\x6E\x67\x74\x68\x6E\x61\x6D\x65"
