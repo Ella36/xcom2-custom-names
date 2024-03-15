@@ -57,9 +57,15 @@ bytes_split: list = soldier_pool.split(BYTES_TO_MODIFY, amount_of_names)
 amount_of_soldiers_to_modify_in_pool: int = len(bytes_split) - 1
 amount_of_soldiers_in_pool: int = len(soldier_pool.split(BYTES_TO_MODIFY)) - 1
 
+# The last element is incorrectly ended. We should end at the BYTES_TERMINATOR
+BYTES_TERMINATOR = b"\x61\x63\x6B\x67\x72\x6F\x75\x6E\x64\x54\x65\x78\x74\x00\x00\x00\x00\x00\x0C\x00\x00\x00\x53\x74\x72\x50\x72\x6F\x70\x65\x72\x74\x79\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x4E\x6F\x6E\x65\x00\x00\x00\x00\x00"
+bytes_last: bytes = bytes_split[-1]
+bytes_last: bytes = bytes_last.split(BYTES_TERMINATOR)[0] + BYTES_TERMINATOR
+bytes_split[-1] = bytes_last
+
 if amount_of_names > amount_of_soldiers_to_modify_in_pool:
     print(
-        f"Not enough soldiers in the pool ({amount_of_soldiers_in_pool}) to modify ({amount_of_names} names! Pick a bigger size!"
+        f"Not enough soldiers in the pool ({amount_of_soldiers_in_pool}) to modify ({amount_of_names} names! "
     )
 else:
     print(
@@ -102,6 +108,17 @@ for i in range(len(bytes_split)):
         merged_string += bytes_split[i]
     else:
         merged_string += bytes_split[i] + new_byte_pieces[i]
+
+# If we return less values than the .bin holds it will copypaste the last soldier
+# Patch amount of soldiers value
+# For  500: ['\xF4, '\x01']
+# Value located at 0x38 -> 56 LSB F4
+# Value located at 0x39 -> 57 MSB 01
+amount_hex: bytes = amount_of_names.to_bytes(length=2, byteorder="little")
+# Value located at 0xA2 -> 162 LSB F4
+# Value located at 0xA3 -> 163 MSB 01
+patched_amount_of_soldiers: bytes = merged_string[:56] + amount_hex + merged_string[58:162] + amount_hex + merged_string[164:]
+merged_string = patched_amount_of_soldiers
 
 # Write to output .bin
 soldier_pool_bin_output = '/output.bin'
