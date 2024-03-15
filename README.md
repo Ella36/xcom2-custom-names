@@ -100,6 +100,10 @@ patched_amount_of_soldiers: bytes = merged_string[:56] + amount_hex + merged_str
 ```
 
 
+(WIP):
+
+First name
+
 
 ![Ingame result](img/screenshot_clones.png)
 
