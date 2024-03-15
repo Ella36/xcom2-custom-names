@@ -33,7 +33,7 @@ async function onFormSubmit(event) {
     // Text Area Validation
     // No validation, let python handle it
 
-    // Decide on Input and Outputname based on how many names and radio button
+    // Decide on Input and Output name based on radio button
     let textArea = document.getElementById("namesTextArea");
     const amountOfLines = textArea.value.split(/\r\n|\r|\n/).filter(item => item.trim()).length
     let isTomSelected = document.getElementById("tom").checked
@@ -42,31 +42,11 @@ async function onFormSubmit(event) {
     let inputFilename = "./data/"
     if (isTomSelected) {
         outputFileName = "Toms.bin"
-        if (amountOfLines <= 25) { inputFilename += "Toms25.bin"; }
-        else if (amountOfLines <= 50) { inputFilename += "Toms50.bin"; }
-        else if (amountOfLines <= 100) { inputFilename += "Toms100.bin"; }
-        else if (amountOfLines <= 150) { inputFilename += "Toms150.bin"; }
-        else if (amountOfLines <= 200) { inputFilename += "Toms200.bin"; }
-        else if (amountOfLines <= 250) { inputFilename += "Toms250.bin"; }
-        else if (amountOfLines <= 300) { inputFilename += "Toms300.bin"; }
-        else if (amountOfLines <= 350) { inputFilename += "Toms350.bin"; }
-        else if (amountOfLines <= 400) { inputFilename += "Toms400.bin"; }
-        else if (amountOfLines <= 450) { inputFilename += "Toms450.bin"; }
-        else if (amountOfLines <= 500) { inputFilename += "Toms500.bin"; }
-        else {
-            alert("You have selected Tom, but you have too many names. Try multiple batches.")
-            return;
-        }
+        inputFilename += "Toms500.bin";
     }
     else { // Dev selected
         outputFileName = "Dev.bin"
-        if (amountOfLines <= 143) { inputFilename += "Dev143.bin"; }
-        else if (amountOfLines <= 286) { inputFilename += "Dev286.bin"; }
-        else if (amountOfLines <= 429) { inputFilename += "Dev429.bin"; }
-        else {
-            alert("You have selected Dev, but you have too many names. Try multiple batches or select Tom instead.")
-            return;
-        }
+        inputFilename += "Dev429.bin"; }
     }
     console.log(`Amount of Names: ${amountOfLines}`);
     console.log(`Input bin: ${inputFilename}`);
