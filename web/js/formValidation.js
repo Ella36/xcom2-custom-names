@@ -42,11 +42,11 @@ async function onFormSubmit(event) {
     let inputFilename = "./data/"
     if (isTomSelected) {
         outputFileName = "Toms.bin"
-        inputFilename += "Toms500.bin";
+        inputFilename += "Toms.bin";
     }
     else { // Dev selected
-        outputFileName = "Dev.bin"
-        inputFilename += "Dev429.bin";
+        outputFileName = "Devs.bin"
+        inputFilename += "Devs.bin";
     }
     console.log(`Amount of Names: ${amountOfLines}`);
     console.log(`Input bin: ${inputFilename}`);

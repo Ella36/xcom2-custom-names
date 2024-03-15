@@ -120,13 +120,16 @@ for i in range(len(bytes_split)):
 # %%
 # If we return less values than the .bin holds it will copypaste the last soldier
 # Patch amount of soldiers value
-# For  500: ['\xF4, '\x01']
+# This number occurs twice:
+# Once before name.bin
 # Value located at 0x38 -> 56 LSB F4
 # Value located at 0x39 -> 57 MSB 01
 amount_hex: bytes = amount_of_names.to_bytes(length=2, byteorder="little")
+# Once after name.bin. This is why Devs.bin and Toms.bin are 4 characters long
 # Value located at 0xA2 -> 162 LSB F4
 # Value located at 0xA3 -> 163 MSB 01
-patched_amount_of_soldiers: bytes = merged_string[:56] + amount_hex + merged_string[58:162] + amount_hex + merged_string[164:]
+patched_amount_of_soldiers: bytes = merged_string[:56] + amount_hex + merged_string[58:160] + amount_hex + merged_string[162:]
+
 merged_string = patched_amount_of_soldiers
 
 # %%
