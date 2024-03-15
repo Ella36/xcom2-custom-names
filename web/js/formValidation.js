@@ -46,7 +46,7 @@ async function onFormSubmit(event) {
     }
     else { // Dev selected
         outputFileName = "Dev.bin"
-        inputFilename += "Dev429.bin"; }
+        inputFilename += "Dev429.bin";
     }
     console.log(`Amount of Names: ${amountOfLines}`);
     console.log(`Input bin: ${inputFilename}`);
