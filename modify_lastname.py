@@ -52,29 +52,28 @@ with open(names_path, "r") as f:
 amount_of_names: int = len(names)
 print(f"Read {amount_of_names} names from names.txt")
 
-# Validate names are not too short or long
-invalid_names = []
-special_character_names = []
+# Validate names
+names_with_invalid_length = []
+names_with_special_characters = []
 
-regex = r"[\u00C0-\u017F]"
+regex_special_characters = r"[\u00C0-\u017F]"
 
-# Warning for invalid names
 for name in names:
     if not (0 < len(name) and len(name) <= MAX_SIZE):
-        invalid_names.append(name)
-    if re.search(regex, name):
-        special_character_names.append(name)
+        names_with_invalid_length.append(name)
+    if re.search(regex_special_characters, name):
+        names_with_special_characters.append(name)
 
 # Warning for characters with accent
-if special_character_names:
-    print(f"Warning: {len(special_character_names)} potentially breaking name(s):")
-    print('\n'.join(special_character_names))
-    print(f"Names that have special characters may break:\n\t{regex}")
+if names_with_special_characters:
+    print(f"Warning: {len(names_with_special_characters)} potentially breaking name(s):")
+    print('\n'.join(names_with_special_characters))
+    print(f"Names that have special characters may show incorrectly in game:\n\t{regex_special_characters}")
 
-# Print invalid names
-if invalid_names:
-    print(f"Warning: {len(invalid_names)} invalid name(s):")
-    print('\n'.join(invalid_names))
+# Error names with invalid length
+if names_with_invalid_length:
+    print(f"Warning: {len(names_with_invalid_length)} invalid name(s):")
+    print('\n'.join(names_with_invalid_length))
     raise ValueError( f"All names must be between 1 and {MAX_SIZE} characters long")
 
 # %%
@@ -85,8 +84,8 @@ with open(soldier_pool_bin, "rb") as f:
 # %%
 # Cut out the string to modify
 bytes_split: list = soldier_pool.split(BYTES_TO_MODIFY, amount_of_names+1)[:amount_of_names+1]
-amount_of_soldiers_to_modify_in_pool = len(bytes_split) - 1
-amount_of_soldiers_in_pool = len(soldier_pool.split(BYTES_TO_MODIFY)) - 1
+amount_of_soldiers_to_modify_in_pool: int = len(bytes_split) - 1
+amount_of_soldiers_in_pool: int = len(soldier_pool.split(BYTES_TO_MODIFY)) - 1
 
 # The last element is incorrectly ended. We should end at the BYTES_TERMINATOR
 BYTES_TERMINATOR = b"\x61\x63\x6B\x67\x72\x6F\x75\x6E\x64\x54\x65\x78\x74\x00\x00\x00\x00\x00\x0C\x00\x00\x00\x53\x74\x72\x50\x72\x6F\x70\x65\x72\x74\x79\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x05\x00\x00\x00\x4E\x6F\x6E\x65\x00\x00\x00\x00\x00"
@@ -115,7 +114,7 @@ def subtract_from_value(value: bytes, amount: int) -> bytes:
     return value
 
 # Construct new bytestring
-new_byte_pieces = []
+new_byte_pieces: list[bytes] = []
 for name in names:
     amount_of_characters: int = len(name)
     assert amount_of_characters <= MAX_SIZE
