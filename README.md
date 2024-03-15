@@ -48,7 +48,7 @@ Importable/
 
 ## names.txt
 
-names should be. maximum of 15 characters per name. Run program and it will tell you which names are too long. 
+names should be. maximum of 15 characters per name. Run program and it will tell you which names are too long.
 Empty lines and whitespace are ignored
 
 Tip: use google sheets formula `=LEN($B2)<=15` returns FALSE is name length is invalid
