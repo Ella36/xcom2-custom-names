@@ -1,8 +1,8 @@
 # XCOM 2 Custom soldier names
 
-This project allows a commander to draft custom names at random instead of renaming soldiers manually. Precreating soldier pools by hand is an option but can be slow and tedious, especially when yo uwant to make changes.
+This project aims to simplify the process of creating custom soldier pools by generating them programmatically instead of manually renaming each one.
 
-I wrote this tool to generate hundreds of soldiers with your custom names
+While you can still create soldier pools by hand, it can be time-consuming and tedious, especially when making changes. To address this issue, I developed a tool that quickly generates hundreds of soldier names of your choosing
 
 Since the soldier pools are stored in binary (.bin) formats, there's no real easy way to edit en masse. This script will do a bytestring replacement of firstname + lastname fields of a premade* soldier pool.
 
