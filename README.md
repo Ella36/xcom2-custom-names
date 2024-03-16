@@ -1,9 +1,10 @@
 # XCOM 2 Custom soldier names
 
-This project allows a commander to generate a soldier pool with premade custom names. Manually typing in names can take hours, additionally changes to this list are a sore.
+This project allows a commander to draft custom names at random instead of renaming soldiers manually. Precreating soldier pools by hand is an option but can be slow and tedious, especially when yo uwant to make changes.
+
+I wrote this tool to generate hundreds of soldiers with your custom names
 
 Since the soldier pools are stored in binary (.bin) formats, there's no real easy way to edit en masse. This script will do a bytestring replacement of firstname + lastname fields of a premade* soldier pool.
-
 
 Currently I have made 2 pools:
 
@@ -11,6 +12,7 @@ Currently I have made 2 pools:
 
 * (Option 2) Using the Devs.bin pool. They have personalities/custom appearance made by the devs. The program can rename their last names so there's some custom appearance data compared to using Tom clones
 
+Ofcourse you can also make your own pool (see details below), but this requires some effort
 
 Result when importing some names from names.txt:
 ![Ingame result](img/screenshot_pool.png)

@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
 
     <!-- Icon -->
-    <link rel="shortcut icon" href="./web/flower.ico">
+    <link rel="shortcut icon" href="./web/img/flower.ico">
 
     <script src='./web/js/formValidation.js'></script>
 </head>
@@ -51,33 +51,40 @@
                                         d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
                                 </svg></span>
                             Source Code
-
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active d-flex align-items-center" aria-current="page"
+                            href="https://github.com/jellemeeus/xcom2-custom-names/blob/main/web/python/script.py">
+                            <span style="margin-right: 5px">
+                                <img src="./web/img/python-logo-only.svg" width="32" height="32" />
+                            </span>
+                            Python script
+
+                        </a>
+
+                    </li>
+
+
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container">
-        <h1>Soldier pool with custom names</h1>
+        <h1>Soldier pool with custom names generator</h1>
         <p>
-            This page uses <a href="https://pyodide.org">Pyodide</a> to run a <a
-                href="https://github.com/jellemeeus/xcom2-custom-names/blob/main/web/python/script.py">Python script</a> in the browser. No
-            installation is needed.
-            See
-
-            <a class="icon-link" href="https://github.com/jellemeeus/xcom2-custom-names">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
-                    <path
-                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
-                </svg>
-                Source
-            </a>
-            for full details
-
+            This project aims to simplify the process of creating custom soldier pools by generating them
+            programmatically instead of manually renaming each one.
         </p>
         <p>
-            <span class="text-danger">The game limits names to a maximum length of 15 characters</span>
+            While you can still create soldier pools by hand, it
+            can be time-consuming and tedious, especially when making changes. To address this issue, I developed a tool
+            that quickly generates hundreds of soldier names of your choosing
+        </p>
+        <p>
+            <span class="text-danger">The game limits first names to 11 characters and last names a maximum length of 15
+                characters</span>
             <br>
             <span class="text-warning"> Names that have special characters (ó, ò, ê, ñ, ù, ç, ¿, ß) may show incorrectly
                 ingame</span>
@@ -86,40 +93,113 @@
         </p>
         <form id='form' label='form'>
             <div class='form-group'>
-                <label for="exampleFormControlTextarea1" class="form-label">Input names here</label>
-                <textarea spellcheck="false" class="form-control" id="namesTextArea" rows="10"
-                    placeholder='Alice&#10;Bob&#10;Charlie &#10;Dorothy&#10;Eve' required></textarea>
-                <small id="inputHelp" class="form-text text-muted"><span id="lineCount">0/500</span> Must be seperated
-                    with newline</small>
+                <label for="namesTextArea">
+                    Paste your names here:
+                    Use <code>@:@</code> as
+                    <code>Firstname@:@Lastname</code>
+                    none will default to <code>. Lastname</code>
+                </label>
+                <div class="form-group">
+                    <textarea spellcheck="false" class="form-control" id="namesTextArea" rows="10"
+                        placeholder='Alice&#10;Bob&#10;Charlie &#10;@:@Dorothy&#10;Eve@:@Evans&#10;Fred@:@' required>
+                </textarea>
+                    <small id="inputHelp" class="form-text text-muted"><span id="lineCount">0/500</span>
+                        names must be separated with newline
+                    </small>
+                </div>
+                <label for="delimiter">
+                    (optional) Custom delimiter. Leave empty to use default <code>@:@</code>
+                </label>
+                <input type="text" class="form-control" id="delimiter" placeholder="@:@">
             </div>
             <br>
             <div class="form-group">
                 <label for="sizeSelection">
-                    Select source soldier_pool.bin. The names of soldiers in this pool will be replaced with your custom names
+                    Select source <code>soldier_pool.bin</code>. The names of soldiers in this pool will be replaced
+                    with your custom
+                    names
                 </label>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="size" id="tom" value="" checked>
                     <label class="form-check-label" for="size1">
-                        Toms.bin clones with identical bland appearance. Max 500 names
+                        <code>Toms.bin</code> clones with identical bland appearance. Max 500 names
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="size" id="dev" value="">
                     <label class="form-check-label" for="size2">
-                        Dev.bin custom soldiers made by the devs. Max 429 names
+                        <code>Devs.bin</code> custom soldiers made by the devs. Max 429 names
                     </label>
                 </div>
             </div>
             <br>
-        <p>
-            Use Web Console (F12) to see the program output. The console will show you which names are <span class="text-danger"> invalid </span> and require
-            renaming
-        </p>
-        <div class="container column">
-            <button type='submit' id='formButton' class='btn btn-primary'>Create and Download modified .bin<br>
-            <small>This may take up to ~10 seconds</small> </button>
-        </div>
+            <p>
+                Use <span class="text-info">Web Console (F12)</span> to see the program output. The console will show
+                you which names are <span class="text-danger"> invalid </span> and require renaming
+            </p>
+            <div class="d-grid col-sm-12 col-md-6 mx-auto">
+                <button type='submit' id='formButton' class='full-width btn btn-primary'>Download modified .bin<br>
+                    <small>This may take up to ~10 seconds</small>
+                </button>
+            </div>
         </form>
+
+        <div class="pt-3">
+            <h2>How to use .bin</h2>
+            <p>
+                The game loads/exports pools (.bin) here:<br>
+                <code>My Documents/My Games/XCOM2 War of the Chosen/XComGame/CharacterPool/Importable/</code><br>
+                Opening/closing the menu is sufficient for the .bin to show
+
+                <code>
+<pre>
+Importable/
+├── Developers.bin
+├── Devs.bin
+└── Toms.bin
+</pre>
+                </code>
+            </p>
+        </div>
+
+        <div class="pb-3">
+            <h2>About</h2>
+
+            <p>
+                This page uses <a href="https://pyodide.org">Pyodide</a> to run a <a
+                    href="https://github.com/jellemeeus/xcom2-custom-names/blob/main/web/python/script.py">Python
+                    script</a>
+                in the browser. No
+                installation is needed.
+            </p>
+
+            <p>
+                Since the soldier pools are stored in binary
+                <code>.bin</code>
+                formats, there's no real easy way to edit en masse.
+                This script will do a bytestring replacement of firstname and lastname fields of a premade soldier
+                pool
+            </p>
+
+            <p>
+                If there are any issues on this page, feel free to report them by making an issue.
+                The <code>.py</code> is available as a script, packages as a <code>.exe</code> or through jupyter
+                notebook
+            </p>
+
+            See
+            <a class="icon-link" href="https://github.com/jellemeeus/xcom2-custom-names">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                    <path
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
+                </svg>
+                Source
+            </a>
+            for full details
+        </div>
+        <p>
+        </p>
+
     </div>
 </body>
 

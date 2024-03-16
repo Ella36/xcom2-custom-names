@@ -57,8 +57,6 @@ FIRST_NAME_MAX_LENGTH: int = 11 # XCOM2 game limitation
 FIRST_NAME_MAGIC_VALUE1 = b"\x06"
 FIRST_NAME_MAGIC_VALUE2 = b"\x02"
 
-NAME_DELIM: str = "@:@" # seperates firstname and lastname
-
 # %%
 soldier_pool_bin = Path(PATH_IN)
 with open(soldier_pool_bin, "rb") as f:
