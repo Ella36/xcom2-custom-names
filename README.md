@@ -1,113 +1,79 @@
 # XCOM 2 Custom soldier names
 
-This script will edit the bytestrings of the lastnames of your soldiers in a given pool.
+This project allows a commander to generate a soldier pool with premade custom names. Manually typing in names can take hours, additionally changes to this list are a sore.
 
-(Option 1) Use 1 origin character with a set appearance and clone it a bunch of times. Then rename all the clones with custom names. Make your own template or use premade Toms.bin
+Since the soldier pools are stored in binary (.bin) formats, there's no real easy way to edit en masse. This script will do a bytestring replacement of firstname + lastname fields of a premade* soldier pool.
 
-(Option 2) Using the Devs.bin pool. They have personalities/custom appearance made by the devs. The program can rename their last names so there's some custom appearance data compared to using Tom clones
 
+Currently I have made 2 pools:
+
+* (Option 1) Use 1 origin character with a set appearance and clone it a bunch of times. Then rename all the clones with custom names. Make your own template or use premade Toms.bin
+
+* (Option 2) Using the Devs.bin pool. They have personalities/custom appearance made by the devs. The program can rename their last names so there's some custom appearance data compared to using Tom clones
+
+
+Result when importing some names from names.txt:
 ![Ingame result](img/screenshot_pool.png)
 
 ## Requirements
 
 Python3.9+, no third party libs
 
-bot.py (not needed) requires pyautogui
+bot.py (not needed) requires pyautogui used to rename the ~140 dev soldiers to create a pool
 notebook.ipynb (not needed) requires jupyter
 
 ## Usage
 
-Decide on using Tom clones with similar appearance or Dev with more appearance variety. Alternatively you can create your own template (difficult, see details below)
+Decide on using Tom clones with similar appearance or Dev with more appearance variety. Alternatively you can create your own template, this requires some work (see below)
 
-Input names in names.txt (one name per line). The game limits names to 15 characters. The program will show you which names are invalid and require renaming
+Input names in names.txt (one name per line). The game limits first names to 11 characters and last names to 15 characters. The program will Error and show you which names are invalid and require renaming.
 
-Names that have special characters break. ó, ò, ê, ñ, ù, ç, ¿, ß
+Tip: use google sheets formula `=LEN($B2)<=15` returns FALSE is name length is invalid
+
+Names that have special characters(ó, ò, ê, ñ, ù, ç, ¿, ß, ...) may show up incorrectly.
+
+First and lastnames are seperated by default with `@:@`. Omitting a delimiter will default to Lastname with firstname as a `.`. You can specify your delimiter with the `--delimiter` option
+```
+name in names.txt -> ingame
+Alice -> '. Alice'
+Firstname@:@Lastname  -> 'Firstname Lastname'
+Some@Thing -> '. Some@Thing'
+John@:@ -> 'John .'
+```
 
 Example of running the script for Toms
 ```
 python3 modify_lastname.py --input data/Toms.bin --names names.txt --output Toms.bin
 ```
 
-example of running the script for Devs
-```
-python3 modify_lastname.py --input data/Devs.bin --names names.txt --output Dev.bin
-```
-
 The game loads/exports pools (.bin) here:
 `My Documents/My Games/XCOM2 War of the Chosen/XComGame/CharacterPool/Importable/`
+Opening/closing the menu is sufficient for the .bin to show
 ```
 Importable/
 ├── Developers.bin
-├── Dev.bin
+├── Devs.bin
 └── Toms.bin
 ```
 
-## names.txt
+## TODO
+There's minimal customization options. I won't add more as it requires setting up a pool of soldiers with a specific name (see Pool creation below). The devs provide a pool which is available but the script will go sequentially and the appearance is never truly random. Extra .bin could be useful to make this process more random
 
-names should be. maximum of 15 characters per name. Run program and it will tell you which names are too long.
-Empty lines and whitespace are ignored
+## (optional) Pool creation if creating custom clone 
 
-Tip: use google sheets formula `=LEN($B2)<=15` returns FALSE is name length is invalid
+Create a character in the game. I require it to be named as follows:
 
-names.txt
+firstname lastname `. tomaxlengthname`
 
-```
-name1
-name2
-name3
-```
-
-Names with accents such as below don't display as expected
-```
-Gastón Rodolfo
-Darío Priego Al
-Rómulo Jerez Re
-...
-```
-
-## Pool creation if creating custom clone (optional)
-
-Create a "Tom" which is your default character. I recommend to name it "tomaxlengthname" as its tied to the bytestring that gets replaced in the script
-
-Export into a pool. Name it Toms
-
-Export Tom again into Toms
-
-Export Tom again in Toms
-
-Repeat until you have 5 Toms in the pool and 1 in barracks
-
-Now, import the 5 toms. Repeat until you have 26.
-
-Delete 1 Tom so you have 25.
-
-Create a new pool Tom25. Export all to Tom25
-
-Import Tom25 so there's 50 total.
-
-Create new pool Tom50. Export all (50) to Tom50
-
-Import Tom50. Now you have 100. Export to Tom100
-
-Import Tom50. Now you have 150. Export to Tom150
-
-repeat until you have enough Toms
-
- ⚠️Name your custom pool 4 characters long. Or it will change the byte offsets for soldier_amount.
-```
-amount_hex: bytes = amount_of_names.to_bytes(length=2, byteorder="little")
-patched_amount_of_soldiers: bytes = merged_string[:56] + amount_hex + merged_string[58:160] + amount_hex + merged_string[162:]
-```
+as the name is tied to the bytestring replacement
 
 
-(WIP):
+️Name your custom pool exactly 4 characters long. Or it will change byte offsets.
 
-First name
-
-
+If your pool like this ingame, the script can replace the names
 ![Ingame result](img/screenshot_clones.png)
 
-## How? What bytestring do, lastname overwriting
+## How? What bytestring do, shown for lastname overwriting 
 
 ImHex screenshot
 1, 2 numbers correlate with name length
